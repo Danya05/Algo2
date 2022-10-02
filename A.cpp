@@ -38,23 +38,28 @@ int main() {
   long long n, k, start0, start1;
   std::cin >> n >> k >> start0 >> start1;
   std::vector<long long> vec;
-  vec.push_back(start0);
-  vec.push_back(start1);
-  long long temp_1 = (long long)vec[0];
-  long long temp_2 = (long long)vec[1];
-  long long curr;
-  for (long long i = 2; i < n; i++) {
-    curr = (temp_2 * 123 + temp_1 * 45) % (10000000 + 4321);
-    if ((long long)vec.size() < k) {
-      vec.push_back(curr);
-    } else {
-      if (curr < vec[k - 1]) {
-        vec[k - 1] = curr;
-        MergeSort(vec, 0, k);
+  if (n == 1 and k == 1) {
+    std::cout << std::min(start0, start1);
+  } else {
+    vec.push_back(start0);
+    vec.push_back(start1);
+    auto temp_1 = (long long)vec[0];
+    auto temp_2 = (long long)vec[1];
+    long long curr;
+    for (long long i = 2; i < n; i++) {
+      curr = (temp_2 * 123 + temp_1 * 45) % (10000000 + 4321);
+      if ((long long)vec.size() < k) {
+        vec.push_back(curr);
+      } else {
+        if (curr < vec[k - 1]) {
+          vec[k - 1] = curr;
+          MergeSort(vec, 0, k - 1);
+        }
       }
+      temp_1 = temp_2;
+      temp_2 = curr;
     }
-    temp_1 = temp_2;
-    temp_2 = curr;
+    MergeSort(vec, 0, k - 1);
+    std::cout << vec[k - 1];
   }
-  std::cout << vec[k - 1];
 }
